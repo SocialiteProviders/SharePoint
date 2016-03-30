@@ -2,12 +2,17 @@
 
 namespace SocialiteProviders\SharePoint;
 
-use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\ProviderInterface;
-use Laravel\Socialite\Two\User;
+use SocialiteProviders\Manager\OAuth2\AbstractProvider;
+use SocialiteProviders\Manager\OAuth2\User;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
+    /**
+     * Unique Provider Identifier.
+     */
+    const IDENTIFIER = 'SHAREPOINT';
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +23,7 @@ class Provider extends AbstractProvider implements ProviderInterface
      */
     protected function getAuthUrl($state)
     {
-        return $this->buildAuthUrlFromBase(env('SHAREPOINT_SITE_URL') . '/_layouts/15/OAuthAuthorize.aspx', $state);
+        return $this->buildAuthUrlFromBase(env('SHAREPOINT_SITE_URL').'/_layouts/15/OAuthAuthorize.aspx', $state);
     }
 
     /**
@@ -49,11 +54,11 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'       => $user['id'],
+            'id' => $user['id'],
             'nickname' => $user['username'],
-            'name'     => $user['name'],
-            'email'    => $user['email'],
-            'avatar'   => $user['avatar'],
+            'name' => $user['name'],
+            'email' => $user['email'],
+            'avatar' => $user['avatar'],
         ]);
     }
 
@@ -63,7 +68,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return array_merge(parent::getTokenFields($code), [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ]);
     }
 }

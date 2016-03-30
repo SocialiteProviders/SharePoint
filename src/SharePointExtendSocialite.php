@@ -1,4 +1,5 @@
 <?php
+
 namespace SocialiteProviders\SharePoint;
 
 use SocialiteProviders\Manager\SocialiteWasCalled;
